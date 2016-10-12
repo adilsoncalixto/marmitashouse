@@ -1,0 +1,4 @@
+#Lista de arquivos a serem ignorados pelo Git
+.buildpath
+.project
+.settings/**/*
