@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+@media screen and (max-width: 768px) 
+{
+	.form {
+		width: 95%;
+		margin: auto;
+	}
+}
+		
+@media screen and (min-width: 769px) {
+	.form {
+		width: 80%;
+		margin: auto;
+	}
+}
