@@ -13,7 +13,7 @@ trait FilterInput
 	 * @param string $text
 	 * @return string
 	 */
-	static function cleanInput($text) {
+	public static function cleanInput($text) {
 		$text = str_replace(';', '', $text);
 		$text = str_replace('*', '', $text);
 		$text = str_replace('-', '', $text);
