@@ -3,13 +3,13 @@
 namespace App\utils;
 
 /**
- * Gerencia o registro da seção
+ * Gerencia o registro da sessão
  * @author Jorge Lucas
  */
 class Session
 {
     /**
-     * inicializa uma seção
+     * inicializa uma sessão
      */
     public function __construct() {
     	
@@ -30,7 +30,7 @@ class Session
     }
 
     /**
-     * Armazena uma variável na seção
+     * Armazena uma variável na sessão
      * @param $var = Nome da variável
      * @param $value = Valor
      */
@@ -40,9 +40,9 @@ class Session
     }
 
     /**
-     * Retorna uma variável da seção
+     * Retorna uma variável da sessão
      * @param $var = Nome da variável
-     * @return sessão logada
+     * @return uma valor da propriedade de $_SESSION
      */
     public static function getValue($var) {
     	
@@ -52,7 +52,7 @@ class Session
     }
 
     /**
-     * Destrói os dados de uma seção
+     * Destrói os dados de uma sessão
      */
     public static function clean() {
     	
