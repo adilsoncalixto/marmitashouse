@@ -50,17 +50,19 @@ TABLE;
 		
 		foreach ($this->rowItens as $item) {
 			$table .= "<tr>";
-			$cod;
+			$propertie;
+			$value;
 			foreach($item as $prop => $val) {
-				if($prop == 'codigo') {
-					$cod = $val;
+				if($prop == 'codigo' || $prop == 'data') {
+					$propertie = $prop;
+					$value = $val;
 				}
 				$table .= "<td>$val</td>";
 			}
 			$table .= <<<TABLE
 				<td>
-					<a href='?class={$this->control}&method=editar&codigo={$cod}'>Editar</a>
-					<a href='?class={$this->control}&method=deletar&codigo={$cod}'>Deletar</a>
+					<a href='?class={$this->control}&method=editar&{$propertie}={$value}'>Editar</a>
+					<a href='?class={$this->control}&method=deletar&{$propertie}={$value}'>Deletar</a>
 				</td>
 TABLE;
 			$table .= "</tr>";
