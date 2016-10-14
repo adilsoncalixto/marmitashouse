@@ -98,7 +98,7 @@ class Usuario extends Login
 	 * banco de dados
 	 */
 	public function delete() {
-		$delete = SqlQuery::drop('usuario', $this->codigo, 'del_usuario');
+		$delete = SqlQuery::drop('usuario', array('codigo', $this->codigo), 'del_usuario');
 		if($delete) {
 			return true;
 		}

@@ -221,7 +221,7 @@ class Cliente
 	 * @return boolean
 	 */
 	public function delete() {
-		$delete = SqlQuery::drop('cliente', $this->codigo, 'del_cliente');
+		$delete = SqlQuery::drop('cliente', array('codigo', $this->codigo), 'del_cliente');
 		if($delete) {
 			return true;
 		}
