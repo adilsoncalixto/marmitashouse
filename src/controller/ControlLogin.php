@@ -55,6 +55,9 @@ class ControlLogin
 		}
 	}
 	
+	/**
+	 * Destrói a sessão a atual e redireciona para a página de login
+	 */
 	public function logout() {
 		$sessao = new Session();
 		$redir = new Redirect();

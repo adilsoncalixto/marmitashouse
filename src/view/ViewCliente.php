@@ -9,11 +9,26 @@ use App\widgets\form\Button;
 use App\widgets\form\Input;
 use Exception;
 
+/**
+ * Trata da exibição dos formulários envolvendo o
+ * Cliente
+ * @author Jorge Lucas
+ */
 class ViewCliente implements FormBasic
 {
+	/**
+	 * @var string $title Título do formulário
+	 * @var string $form Formulário
+	 */
 	private $title;
 	private $form;
 	
+	/**
+	 * Configura e exibe o formulário de acordo com o método
+	 * anteriormente chamado.
+	 * {@inheritDoc}
+	 * @see \App\view\FormBasic::show()
+	 */
 	public function show() {
 		
 		$config = isset($_GET['method']) ? $_GET['method'] : null;
@@ -169,6 +184,11 @@ class ViewCliente implements FormBasic
 		echo $div->closeTag();
 	}
 
+	/**
+	 * Configura e exibe o formulário de adição de dados com os mesmo
+	 * carregados
+	 * @param array $dados Dados invocados para realizar a edição
+	 */
 	public function showEditForm(array $dados) {
 		
 		$sessao = new Session();

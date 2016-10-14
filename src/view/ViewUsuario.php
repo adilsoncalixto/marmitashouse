@@ -10,11 +10,27 @@ use App\widgets\form\Input;
 use App\widgets\form\Select;
 use Exception;
 
+/**
+ * Gerencia a configuração e exibição do formulaŕio para
+ * cadastrar e editar dados dos clientes
+ * @author Jorge Lucas
+ * @inheritdoc App\view\FormBasic
+ */
 class ViewUsuario implements FormBasic
 {
+	/**
+	 * @var string $title Título do formulário
+	 * @var string $form Formulário
+	 */
 	private $title;
 	private $form;
 	
+	/**
+	 * Configura e exibe o formulário de acordo com o método
+	 * anteriormente chamado.
+	 * {@inheritDoc}
+	 * @see \App\view\FormBasic::show()
+	 */
 	public function show() {
 		
 		$sessao = new Session();
@@ -125,6 +141,11 @@ class ViewUsuario implements FormBasic
 		echo $div->closeTag();
 	}
 	
+	/**
+	 * Configura e exibe o formulário de adição de dados com os mesmo
+	 * carregados
+	 * @param array $dados Dados invocados para realizar a edição
+	 */
 	public function showEditForm(array $dados) {
 	
 		$sessao = new Session();

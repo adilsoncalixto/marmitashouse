@@ -10,12 +10,18 @@ use App\widgets\form\Input;
 use App\widgets\form\Button;
 
 /**
- * Gerencia 
- * @author lucas
- *
+ * Gerencia a configuração e exibição do formulaŕio para
+ * logar no sistema
+ * @author Jorge Lucas
+ * @inheritdoc App\view\FormBasic
  */
 class ViewLogin implements FormBasic
 {
+	/**
+	 * Exibe o formulário para efetuar login
+	 * {@inheritDoc}
+	 * @see \App\view\FormBasic::show()
+	 */
 	public function show() {
 		
 		$sessao = new Session();

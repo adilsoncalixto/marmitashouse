@@ -8,6 +8,12 @@ namespace App\widgets\base;
  */
 class Navbar
 {
+	/**
+	 * @var string $navname Título da barra de navegação
+	 * @var array $mainMenu Conjunto de dados do menu principal
+	 * @var string $userMenu Nome do usuário para montar seu menu
+	 * @var string $btMobile Botão para acesso em dispositivos móveis
+	 */
 	private $navName; //Armazena o título da barra de navegação
 	private $mainMenu; //Armazena o menu principal
 	private $userMenu; //Armazena o menu do usuário
@@ -16,6 +22,7 @@ class Navbar
 	/**
 	 * Configura o nome que será exibido na barra de navegação
 	 * @param string $name
+	 * @return void
 	 */
 	public function setNavName(string $name) {
 		$this->navName = $name;
@@ -25,6 +32,7 @@ class Navbar
 	 * Contrutora do menu principal
 	 * Recebe um array de dados contendo título do menu e seus respectivos submenus.
 	 * @param array $itens Conjunto de dados com as informações do menu
+	 * @return void
 	 */
 	public function setMainManu(array $itens) {
 		$this->mainMenu = "<ul class=\"nav navbar-nav\">";
@@ -45,6 +53,7 @@ HTML;
 	/**
 	 * Geradora do menu do usuário
 	 * @param string $username Nome do usuário
+	 * @return void
 	 */
 	public function userMenu(string $username) {
 		$this->userMenu = <<<HTML
@@ -70,7 +79,7 @@ BT;
 	
 	/**
 	 * Exibe o menu construído
-	 * @return void
+	 * @return string Barra de navegação
 	 */
 	public function show() {
 		$content = <<<HTML
