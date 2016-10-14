@@ -143,13 +143,18 @@ trait SqlQuery
 		}
 	}
 	
-	public static function drop(string $table, int $codigo, string $typeLog) {
+	public static function drop(string $table, array $dados, string $typeLog) {
 		
 		Transaction::open('mysql');
 		$conn = Transaction::get();
 		$logger = new Logger();
 		$logger->open($typeLog);
-		$sql = "DELETE FROM {$table} WHERE codigo = {$codigo}";
+		if(is_int($dados[1])) {
+			$sql = "DELETE FROM {$table} WHERE {$dados[0]} = {$dados[1]}";
+		} else {
+			$sql = "DELETE FROM {$table} WHERE {$dados[0]} = '{$dados[1]}'";
+		}
+		
 		$logger->write($sql);
 		$query = $conn->prepare($sql);
 		if($query->execute()) {
