@@ -70,6 +70,20 @@ trait SqlQuery
 					$i++;
 				}
 				break;
+			case 'BETWEEN':
+				$sql .= " WHERE ";
+				foreach ($data as $item => $valor) {
+					if($i == 1) {
+						$sql .= "{$item} BETWEEN ";
+					}
+					if($i == count($data)) {
+						$sql .= "'{$valor}'";
+						break;
+					}
+					$sql .= "'{$valor}' {$bool} ";
+					$i++;
+				}
+				break;
 		}
 		
 		end:
