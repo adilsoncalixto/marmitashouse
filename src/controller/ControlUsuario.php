@@ -8,10 +8,19 @@ use App\widgets\dialog\Message;
 use App\widgets\container\DataGrid;
 use Exception;
 
+/**
+ * Controla as requisições envolvendo usuários
+ * @author Jorge Lucas
+ */
 class ControlUsuario
 {
+	/**
+	 * Responsável montar o formulário de cadastro e sua submissão
+	 * @throws Exception
+	 */
 	public function cadastrar() {
 		
+		/** verifica se o usuário possui as devidas permissões **/
 		if($_SESSION['permission'] !== 'all') {
 			throw new Exception('Usuário sem permissão de acesso! Contate o adinistrador so sistema!');
 		}
@@ -19,6 +28,7 @@ class ControlUsuario
 		$action = isset($_GET['action']) ? $_GET['action'] : null;
 		$verif = true;
 		
+		/** processado ao submeter o formulário **/
 		if($action == 'submit') {
 			
 			/** verifica se o código hash do formulário para evitar envio de dados duplicados **/
@@ -29,6 +39,7 @@ class ControlUsuario
 			$model = new Usuario();
 			$model->setUsername($_POST['username']);
 			$model->setPassword($_POST['password']);
+			//Caso as senhas não batam
 			if($model->getPassword() !== md5($_POST['passwordCheck'])) {
 				$verif = false;
 				goto verif;
@@ -56,8 +67,13 @@ class ControlUsuario
 		$view->show();
 	}
 	
+	/**
+	 * Gerencia as requisições de consulta
+	 * @throws Exception
+	 */
 	public function consultar() {
 
+		/** verifica se o usuário possui oermissão **/
 		if($_SESSION['permission'] !== 'all') {
 			throw new Exception('Usuário sem permissão de acesso! Contate o adinistrador so sistema!');
 		}
@@ -69,7 +85,7 @@ class ControlUsuario
 			$table = new DataGrid('Lista de usuário cadastrados', 'ControlUsuario');
 			$table->setColunHeaders(array('#','Usuário','Senha','Nome','Perissões'));
 			$table->setRowItens($result);
-			$tableResult = $table->mount();
+			$tableResult = $table->mount(['editar', 'deletar']);
 		} else {
 			$msg = new Message();
 			$msg->setContent('Oops!', "Nenhum dado encontrado", 'info');
@@ -79,6 +95,10 @@ class ControlUsuario
 		echo $tableResult;
 	}
 	
+	/**
+	 * Trata a requisição para deletar dados
+	 * @throws Exception
+	 */
 	public function deletar() {
 		
 		/** variável código passada pela url **/
@@ -100,6 +120,11 @@ class ControlUsuario
 		$this->consultar();
 	}
 
+	/**
+	 * Gerencia a requisição para edição de dados, monta o formulá e trata sua
+	 * submissão
+	 * @throws Exception
+	 */
 	public function editar() {
 	
 		/** variável ação (action) passada pela url **/

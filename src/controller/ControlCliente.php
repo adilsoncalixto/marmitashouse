@@ -106,7 +106,7 @@ class ControlCliente
 				$table = new DataGrid('Resultados da busca', 'ControlCliente');
 				$table->setColunHeaders(array('#','Nome','Data nascimento','Telefone','Endereço','Bairro','Ponto de Referencia','Ação'));
 				$table->setRowItens($result);
-				$tableResult = $table->mount();
+				$tableResult = $table->mount(['editar', 'deletar']);
 			} else {
 				$msg = new Message();
 				$msg->setContent('Oops!', "Nenhum dado encontrado", 'info');
