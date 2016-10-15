@@ -28,6 +28,9 @@ class Control
 			case 'ControlCliente':
 				return (new ControlCliente());
 				break;
+			case 'ControlEmpresaTerceirizada':
+				return (new ControlEmpresaTerceirizada());
+				break;
 			case 'ControlCaixa':
 				return (new ControlCaixa());
 				break;
