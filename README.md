@@ -4,6 +4,10 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 2.0.1 ##
+* Coreção de erros e melhorias gerais
+* Largura dos formulários reduzidos em 30% (resolução > 768px)
+
 ## Versão estável 2.0 ##
 * Módulo Caixa adicionado
 * Coreção de erros e melhorias gerais
