@@ -56,7 +56,7 @@ try
 		
 		$class = 'ControlLogin';
 		$navbar = new Navbar();
-		$navbar->setNavName("Casa das Marmitas v2.0");
+		$navbar->setNavName("Casa das Marmitas v2.0.1");
 		echo $navbar->show();
 	
 	} else {
@@ -70,21 +70,21 @@ try
 						"Consultar" => "?class=ControlCliente&method=consultar"
 				),
 				"Produto" => array(
-						"Cadastrar" => "?class=FormProduto&method=cadastrar",
-						"Consultar" => "?class=FormProduto&method=consultar"
+						"Cadastrar" => "?class=ControProduto&method=cadastrar",
+						"Consultar" => "?class=ControProduto&method=consultar"
 				),
 				"Pedido" => array(
-						"Cadastrar" => "?class=FormPedido&method=cadastrar",
-						"Consultar" => "?class=FormPedido&method=consultar",
-						"Relatório" => "?class=Formpedido&method=relatorio"
+						"Cadastrar" => "?class=ControPedido&method=cadastrar",
+						"Consultar" => "?class=ControPedido&method=consultar",
+						"Relatório" => "?class=Contropedido&method=relatorio"
 				),
 				"Entregador" => array(
-						"Cadastrar" => "?class=FormEntregador&method=cadastrar",
-						"Consultar" => "?class=FormEntregador&method=consultar"
+						"Cadastrar" => "?class=ControEntregador&method=cadastrar",
+						"Consultar" => "?class=ControEntregador&method=consultar"
 				),
 				"Empresa Terceirizada" => array(
-						"Cadastrar" => "?class=FormEmpresaTerceirizada&method=cadastrar",
-						"Consultar" => "?class=FormEmpresaTerceirizada&method=consultar"
+						"Cadastrar" => "?class=ControlEmpresaTerceirizada&method=cadastrar",
+						"Consultar" => "?class=ControlEmpresaTerceirizada&method=consultar"
 				),
 				"Caixa" => array(
 						"Novo" => "?class=ControlCaixa&method=novo",
