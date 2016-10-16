@@ -5,7 +5,7 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 http://marmitashouse.pe.hu/
 
 ## Versão estável 3.0 ##
-* Módulo Caixa adicionado
+* Módulo Empresa Terceirizada adicionado
 * Correção de erros e melhorias
 
 ## Versão estável 2.0.1 ##
