@@ -64,7 +64,7 @@ try
 		
 		$class = 'ControlLogin';
 		$navbar = new Navbar();
-		$navbar->setNavName("Casa das Marmitas v3.1");
+		$navbar->setNavName("Casa das Marmitas v3.1.1");
 		echo $navbar->show();
 	
 	} else {
@@ -143,7 +143,7 @@ catch (Exception $ex)
 	echo $msg->show();
 	
 	$redir = new Redirect();
-	$redir->setUrl('?class=ControlLogin');
+	$redir->setUrl("?class=ControlHome");
 	$redir->reload(3);
 }
 
