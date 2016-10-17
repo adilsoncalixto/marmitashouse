@@ -20,10 +20,11 @@ final class Redirect
 	}
 	
 	/**
-	 * Faz o redirecionameto da página
+	 * Faz o redirecionameto da página dentro do tempo determinado
+	 * @param int $time Tempo (em segundos) en que a página recarregará
 	 * @return void
 	 */
-	public function reload() {
-		echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL={$this->url}'>";
+	public function reload(int $time = 0) {
+		echo "<meta HTTP-EQUIV='Refresh' CONTENT='{$time};URL={$this->url}'>";
 	}
 }
