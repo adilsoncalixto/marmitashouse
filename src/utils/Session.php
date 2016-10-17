@@ -17,8 +17,39 @@ class Session
             session_start();
             session_regenerate_id(true);
             session_name(md5('sec'.$_SERVER['REMOTE_ADDR'].'sec'.$_SERVER['HTTP_USER_AGENT'].'sec'));
-            $_SESSION['_token'] = !isset($_SESSION['_token']) ? hash('sha256', random_int(0, 1000)) : $_SESSION['_token'];
         }
+        
+        /** Verifica a propriedade já esta configurada, senão a cria **/
+    	if(!isset($_SESSION['sessionTime'])) {
+    		$_SESSION['sessionTime'] = time() + (60 * 10); //60s * Xmin = Tempo
+    	}
+        
+        /** gera uma sequência de caracteres para verificação de formulário **/
+        $_SESSION['_token'] = !isset($_SESSION['_token']) ? hash('sha256', random_int(0, 1000)) : $_SESSION['_token'];
+    }
+    
+    /**
+     * Verifica o tempo da sessão. Caso ainda esteja ativa, retorna true, senão,
+     * destrói a sessão e retorna false
+     * @return boolean
+     */
+    public function checkSessionTime() {
+    	
+    	if($_SESSION['sessionTime'] < time()) {
+    		$_SESSION = array();
+    		session_destroy();
+    		return false;
+    	}
+    	return true;
+    }
+    
+    /**
+     * Aumenta o tempo da sessão em 6min
+     * @return void
+     */
+    public function extendSessionTime() {
+    	
+    	$_SESSION['sessionTime'] = time() + (60 * 10);
     }
     
     /**
@@ -26,6 +57,7 @@ class Session
      * @return void
      */
     public function generateNewToken() {
+    	
     	$_SESSION['_token'] = hash('sha256', random_int(0, 1000));
     }
 
