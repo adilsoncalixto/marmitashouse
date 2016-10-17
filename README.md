@@ -4,6 +4,10 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 3.1 ##
+* Adicionado um controle de tempo de sessão
+* Possibilidade de determinar o tempo de reload da class Redirect
+
 ## Versão estável 3.0 ##
 * Módulo Empresa Terceirizada adicionado
 * Correção de erros e melhorias
