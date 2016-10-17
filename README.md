@@ -4,6 +4,10 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 3.1.1 ##
+* Corrido o erro em que, ao se lançar uma excessão, chamava a view
+Login, agora, chamará a view Home.
+
 ## Versão estável 3.1 ##
 * Adicionado um controle de tempo de sessão
 * Possibilidade de determinar o tempo de reload da class Redirect
