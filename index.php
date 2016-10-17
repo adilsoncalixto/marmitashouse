@@ -4,6 +4,7 @@
 require 'vendor/autoload.php';
 
 use App\controller\Control;
+use App\utils\Redirect;
 use App\utils\Session;
 use App\utils\Logger;
 use App\widgets\base\Navbar;
@@ -39,6 +40,13 @@ try
 	 */
 	$sessao = new Session();
 	
+	/** Verifica a se a sessão está dentro do tempo de atividades, senão, destrói a mesma **/
+	if($sessao->checkSessionTime()) {
+		$sessao->extendSessionTime();
+	} else {
+		throw new Exception('Tempo de sessão expirado!');
+	}
+	
 	/**
 	 * @var $class Armazena o nome da classe a ser invocada
 	 * @var $method Armazena o nome do método a ser invicado
@@ -56,7 +64,7 @@ try
 		
 		$class = 'ControlLogin';
 		$navbar = new Navbar();
-		$navbar->setNavName("Casa das Marmitas v3.0");
+		$navbar->setNavName("Casa das Marmitas v3.1");
 		echo $navbar->show();
 	
 	} else {
@@ -133,6 +141,10 @@ catch (Exception $ex)
 	$msg = new Message();
 	$msg->setContent('Erro:', $ex->getMessage(), 'warning');
 	echo $msg->show();
+	
+	$redir = new Redirect();
+	$redir->setUrl('?class=ControlLogin');
+	$redir->reload(3);
 }
 
 ?>
