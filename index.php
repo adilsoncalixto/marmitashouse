@@ -78,17 +78,17 @@ try
 						"Consultar" => "?class=ControlCliente&method=consultar"
 				),
 				"Produto" => array(
-						"Cadastrar" => "?class=ControProduto&method=cadastrar",
-						"Consultar" => "?class=ControProduto&method=consultar"
+						"Cadastrar" => "?class=ControlProduto&method=cadastrar",
+						"Consultar" => "?class=ControlProduto&method=consultar"
 				),
 				"Pedido" => array(
-						"Cadastrar" => "?class=ControPedido&method=cadastrar",
-						"Consultar" => "?class=ControPedido&method=consultar",
-						"Relatório" => "?class=Contropedido&method=relatorio"
+						"Cadastrar" => "?class=ControlPedido&method=cadastrar",
+						"Consultar" => "?class=ControlPedido&method=consultar",
+						"Relatório" => "?class=Controlpedido&method=relatorio"
 				),
 				"Entregador" => array(
-						"Cadastrar" => "?class=ControEntregador&method=cadastrar",
-						"Consultar" => "?class=ControEntregador&method=consultar"
+						"Cadastrar" => "?class=ControlEntregador&method=cadastrar",
+						"Consultar" => "?class=ControlEntregador&method=consultar"
 				),
 				"Empresa Terceirizada" => array(
 						"Cadastrar" => "?class=ControlEmpresaTerceirizada&method=cadastrar",
