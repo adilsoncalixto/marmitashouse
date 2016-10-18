@@ -13,7 +13,7 @@ class Control
 	/**
 	 * Recebe uma string com o nome da classe controladora, case a encontre, retorna-a instanciada
 	 * @param string $class Noma da classe
-	 * @return instancia de uma classe
+	 * @return object Instância de uma classe
 	 */
 	public static function load(string $class) {
 		
@@ -27,6 +27,9 @@ class Control
 				break;
 			case 'ControlCliente':
 				return (new ControlCliente());
+				break;
+			case 'ControlEntregador':
+				return (new ControlEntregador());
 				break;
 			case 'ControlEmpresaTerceirizada':
 				return (new ControlEmpresaTerceirizada());
