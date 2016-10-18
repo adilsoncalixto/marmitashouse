@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set("America/Fortaleza");
+
 //PSR-4 Autoload / Composer
 require 'vendor/autoload.php';
 
