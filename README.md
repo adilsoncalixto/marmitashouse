@@ -4,6 +4,9 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 4.0.1 ##
+* Corrigido erro de horário local. Definido para Fortaleza - CE.
+
 ## Versão estável 4.0 ##
 * Módulo Entregador adicionado
 * Correção de erros e melhorias
