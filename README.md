@@ -4,6 +4,10 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 4.0 ##
+* Módulo Entregador adicionado
+* Correção de erros e melhorias
+
 ## Versão estável 3.1.1 ##
 * Corrido o erro em que, ao se lançar uma excessão, chamava a view
 Login, agora, chamará a view Home.
