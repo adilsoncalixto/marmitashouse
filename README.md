@@ -4,6 +4,11 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 5.0 ##
+* Módulo Produto adicionado
+* Nova classe Radio (gera HTML radio)
+* Correção de erros e melhorias
+
 ## Versão estável 4.0.1 ##
 * Corrigido erro de horário local. Definido para Fortaleza - CE.
 
