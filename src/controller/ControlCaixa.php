@@ -50,6 +50,11 @@ class ControlCaixa
 		$view->show();
 	}
 	
+	/**
+	 * Realiza a consulta com base nas datas recebidas do
+	 * formulário
+	 * @throws Exception
+	 */
 	public function consultar() {
 		
 		$action = isset($_GET['action']) ? $_GET['action'] : null;
@@ -76,7 +81,7 @@ class ControlCaixa
 			 * uma mensagem informando que não há dados **/
 			if($result) {
 				$table = new DataGrid('Resultados da busca', 'ControlCaixa');
-				$table->setColunHeaders(array('Data', 'Quantia final', 'Responsável pela abertura', 'Ação'));
+				$table->setColunHeaders(['#','Data', 'Quantia final', 'Responsável pela abertura', 'Ação']);
 				$table->setRowItens($result);
 				$tableResult = $table->mount(['deletar']);
 			} else {
@@ -93,6 +98,11 @@ class ControlCaixa
 		echo isset($tableResult) ? $tableResult : null;
 	}
 	
+	/**
+	 * Recebe a requisição para realizar a remoção do caixa com base
+	 * na data repassada
+	 * @throws Exception
+	 */
 	public function deletar() {
 		
 		if($_SESSION['permission'] !== 'all') {
@@ -100,11 +110,10 @@ class ControlCaixa
 		}
 		
 		/** variável código passada pela url **/
-		$codigo = isset($_GET['data']) ? $_GET['data'] : null;
+		$codigo = isset($_GET['codigo']) ? $_GET['codigo'] : null;
 		
 		$model = new Caixa();
-		$data = new DateTime(str_replace('/', '-', $_GET['data']));
-		$result = $model->delCaixa($data->format('d/m/Y'));
+		$result = $model->delCaixa($codigo);
 		
 		if($result) {
 			$msg = new Message();
