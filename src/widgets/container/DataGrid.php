@@ -81,7 +81,7 @@ TABLE;
 			$value;
 			//Salva as propriedades pra montar o link
 			foreach($item as $prop => $val) {
-				if($prop == 'codigo' || $prop == 'data') {
+				if($prop == 'codigo') {
 					$propertie = $prop;
 					$value = $val;
 				}
