@@ -18,6 +18,7 @@ use App\widgets\dialog\Message;
 
 <head>
 	<meta charset='utf-8'>
+	<meta name='theme-color' content='#4e5d6c'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title> Casa das Marmitas </title>
@@ -25,9 +26,10 @@ use App\widgets\dialog\Message;
 	<!-- bootstrap & jquery -->
 	<script src='src/resources/bootstrap/js/jquery.min.js'></script>
 	<link rel='stylesheet' href='src/resources/bootstrap/css/bootstrap.min.css'>
-	<script src="src/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script src="src/resources/bootstrap/js/bootstrap.min.js"></script>	
 	
 	<!-- project -->
+	<script src="src/resources/js/pedido.js"></script>
 	<link rel='stylesheet' href='src/resources/css/defaultStyles.css'>
 </head>
 
@@ -86,7 +88,7 @@ try
 				"Pedido" => array(
 						"Cadastrar" => "?class=ControlPedido&method=cadastrar",
 						"Consultar" => "?class=ControlPedido&method=consultar",
-						"Relatório" => "?class=Controlpedido&method=relatorio"
+						"Relatório" => "?class=ControlPedido&method=relatorio"
 				),
 				"Entregador" => array(
 						"Cadastrar" => "?class=ControlEntregador&method=cadastrar",
@@ -138,15 +140,16 @@ catch (Exception $ex)
 {
 	$log = new Logger();
 	$log->open('erro');
-	$log->write($ex->getMessage());
+	$log->write($ex->getMessage().'_user: '. $_SESSION['nickname']);
 	
 	$msg = new Message();
-	$msg->setContent('Erro:', $ex->getMessage(), 'warning');
+	$nick = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : '';
+	$msg->setContent('Erro:',$ex->getMessage(), 'warning');
 	echo $msg->show();
 	
 	$redir = new Redirect();
 	$redir->setUrl("?class=ControlHome");
-	$redir->reload(3);
+	$redir->reload(5);
 }
 
 ?>
