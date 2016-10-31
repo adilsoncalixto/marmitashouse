@@ -25,11 +25,14 @@ class Control
 			case 'ControlHome':
 				return (new ControlHome());
 				break;
+			case 'ControlCliente':
+				return (new ControlCliente());
+				break;
 			case 'ControlProduto':
 				return (new ControlProduto());
 				break;
-			case 'ControlCliente':
-				return (new ControlCliente());
+			case 'ControlPedido':
+				return (new ControlPedido());
 				break;
 			case 'ControlEntregador':
 				return (new ControlEntregador());
