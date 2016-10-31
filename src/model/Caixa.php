@@ -25,6 +25,11 @@ class Caixa
 	private $quantia;
 	private $username;
 	
+	public function getCodigo() {
+		$codigo = SqlQuery::select('caixa', ['data'=>$this->data], ['codigo'], '=', '', 'bus_caixa');
+		return intval($codigo[0]->codigo);
+	}
+	
 	/**
 	 * Atribui a data atual à variável $data
 	 */
@@ -72,21 +77,20 @@ class Caixa
 	}
 	
 	/**
-	 * Lê o valor do caixa em questão, soma com o valor passado por parâmetro
-	 * e armazena no banco de dados
-	 * @param double $quantia
+	 * Lê a quantia existente no caixa e adiciona com a
+	 * quantia passada
+	 * @return void
 	 */
-	public function addQuantia(double $quantia) {
-		//TODO: implementar
-	}
-	
-	/**
-	 * Lê o valor do caixa em questão, verifica se é possivel efetar uma retirada e,
-	 * então, subtrai pelo valor passado por parâmetro e armazena no banco de dados.
-	 * @param double $quantia
-	 */
-	public function rmvQuantia(double $quantia) {
-		//TODO: implementar
+	public function attQuantia() {
+		$dados = [
+			'codigo' => $this->getCodigo(),
+			'quantia' => $this->quantia
+		];
+		$insert = SqlQuery::update('caixa', $dados, 'upd_caixa');
+		if($insert) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -118,7 +122,7 @@ class Caixa
 	 * Retorna uma lista com todos os caixas registrados
 	 */
 	public function listCaixa(array $dados) {
-		$select = SqlQuery::select('caixa', $dados, '*', 'BETWEEN', 'AND', 'bus_caixa');
+		$select = SqlQuery::select('caixa', $dados, ['codigo','data', 'quantia', 'username'], 'BETWEEN', 'AND', 'bus_caixa');
 		if(!empty($select)) {
 			return (array)$select;
 		}
@@ -128,8 +132,8 @@ class Caixa
 	/**
 	 * Remove um caixa do banco de dados
 	 */
-	public function delCaixa(string $data) {
-		$delete = SqlQuery::drop('caixa', array('data', $data), 'del_caixa');
+	public function delCaixa(string $codigo) {
+		$delete = SqlQuery::drop('caixa', ['codigo', $codigo], 'del_caixa');
 		if($delete) {
 			return true;
 		}
