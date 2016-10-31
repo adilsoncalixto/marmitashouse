@@ -16,12 +16,12 @@ trait SqlQuery
 	 * REaliza o INSERT no bando de dados
 	 * @param string $table Tabela alvo
 	 * @param array $data Dados e seu valor
-	 * @param string $target Campo da tabela alvo
+	 * @param array|string $target Campo da tabela alvo
 	 * @param string $operator Operadores SQL (LIKE, +, > etc)
 	 * @param string $bool Operadores lógicos (AND, OR, XOR)
 	 * @return object $result Resultado da consulta
 	 */
-	public static function select(string $table, array $data, string $target, string $operator, string $bool,
+	public static function select(string $table, array $data, $target, string $operator, string $bool,
 								  string $typeLog) {
 		Transaction::open('mysql');
 		$conn = Transaction::get();
@@ -30,10 +30,10 @@ trait SqlQuery
 		$sql = "SELECT ";
 		$i = 1;
 		
-		if(empty($target)) {
-			foreach ($data as $item => $value) {
-				if($i == count($data)) {
-					$sql .= "{$item} FROM {$table} WHERE ";
+		if(is_array($target)) {
+			foreach ($target as $item) {
+				if($i == count($target)) {
+					$sql .= "{$item} FROM {$table}";
 					break;
 				}
 				$sql .= "{$item}, ";
