@@ -2,6 +2,8 @@
 
 namespace App\widgets\container;
 
+use DateTime;
+
 /**
  * Geradora de tabela
  * @author Jorge Lucas
@@ -84,6 +86,12 @@ TABLE;
 				if($prop == 'codigo') {
 					$propertie = $prop;
 					$value = $val;
+				}
+				
+				/* formata as datas para o formato dd/mm/AAAA */
+				if($prop == 'data') {
+					$val = new DateTime($val);
+					$val = $val->format('d/m/Y');
 				}
 				$table .= "<td>$val</td>";
 			}
