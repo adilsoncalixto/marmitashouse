@@ -2,13 +2,16 @@
 
 namespace App\view;
 
+use App\database\SqlQuery;
 use App\utils\Session;
 use App\widgets\base\Element;
 use App\widgets\container\Panel;
 use App\widgets\container\ProdutosList;
+use App\widgets\container\ProdutosList_Simple;
 use App\widgets\form\Button;
 use App\widgets\form\Input;
 use App\widgets\form\Select;
+use DateTime;
 use Exception;
 
 /**
@@ -18,15 +21,19 @@ use Exception;
 class ViewPedido implements FormBasic
 {
 	/**
-	 * @var string $title Título do formulário
-	 * @var string $form Formulário
-	 * @var array $select Empresas Terceirizadas
+	 * @var string title Título do formulário
+	 * @var string form Formulário
+	 * @var array select Empresas Terceirizadas
+	 * @var array produtos Produtos cadastrados
+	 * @var array entregador Entergadores cadastrados
+	 * @trait SqlQuery Monta a instrução SQL e interage com o sgbd
 	 */
 	private $title;
 	private $form;
 	public $select;
 	public $produtos;
 	public $entregador;
+	use SqlQuery;
 	
 	/**
 	 * Configura e exibe o formulário de acordo com o método
@@ -90,15 +97,24 @@ class ViewPedido implements FormBasic
 				$input->setAttributes('id', 'valorTotal');
 				$input->setAttributes('size', '300');
 				$input->setAttributes('readonly', 'true');
-				$input->setLabel('valorTotal', 'Valor total da compra:');
+				$input->setLabel('valorTotal', 'Valor total da compra (+ R$ 4,50 :: Taxa de entrega):');
 				$content .= $input->show();
 				
 				//input Tipo de pagamento
 				$select = new Select('tipoPagamento');
 				$select->setId('tipoPagamento');
 				$select->setLabel('tipoPagamento', 'Tipo de pagamento:');
-				$select->setOptions(['dinheiro'=>'Dinheiro', 'cartao_credito'=>'Cartão - Crédito (Máximo: 1x parcela)','cartao_debito'=>'Cartão - Débito']);
+				$select->setOptions(['Dinheiro'=>'Dinheiro', 'Cartão - Crédito'=>'Cartão - Crédito (Máximo: 1x parcela)','Cartão - Débito'=>'Cartão - Débito']);
 				$content .= $select->show();
+				
+				//input Valor desconto
+				$input->setType('text');
+				$input->setAttributes('name', 'desconto');
+				$input->setAttributes('id', 'desconto');
+				$input->setAttributes('size', '300');
+				$input->setAttributes('required', 'required');
+				$input->setLabel('desconto', 'Desconto:');
+				$content .= $input->show();
 				
 				//input Valor pago
 				$input->setType('text');
@@ -203,6 +219,149 @@ class ViewPedido implements FormBasic
 				throw new Exception('Método não encontrado!');
 				break;
 		}
+		
+		$panel = new Panel($this->title);
+		$panel->setContent($this->form);
+		$panel->show();
+		
+		echo $div->closeTag();
+	}
+
+	/**
+	 * Configura e exibe o formulário de adição de dados com os mesmo
+	 * carregados
+	 * @param array $dados Dados invocados para realizar a edição
+	 */
+	public function showEditForm(array $dados) {
+		
+
+		$sessao = new Session();
+		$sessao->generateNewToken();
+		
+		$div = new Element("div");
+		$div->setAttribute('class', 'form');
+		echo $div->show();
+		
+		$content = '';
+		$form = new Element("form");
+		$input = new Input();
+		$form->setAttribute("method", "post");
+		
+		$form->setAttribute("action", "?class=ControlPedido&method=editar&action=atualizar");
+		$content .= $form->show();
+		
+		foreach ($dados as $obj) {
+			foreach ($obj as $prop => $val) {
+				if($prop == 'codigo') {
+					$input->setType('text');
+					$input->setAttributes('name', $prop);
+					$input->setAttributes('id', $prop);
+					$input->setAttributes('size', '300');
+					$input->setAttributes('required', 'required');
+					$input->setAttributes('value', $val);
+					$input->setAttributes('readonly', 'true');
+					$input->setLabel($prop, 'Código do pedido:');
+					$content .= $input->show();
+					continue;
+				}
+				if($prop == 'data') {
+					$input->setType('date');
+					$input->setAttributes('name', $prop);
+					$input->setAttributes('id', $prop);
+					$input->setAttributes('size', '300');
+					$input->setAttributes('required', 'required');
+					$val = new DateTime($val);
+					$input->setAttributes('value', $val->format('Y-m-d'));
+					$input->setAttributes('readonly', 'true');
+					$input->setLabel($prop, 'Data da realização do pedido:');
+					$content .= $input->show();
+					continue;
+				}
+				if($prop == 'cliente') {
+					$input->setType('text');
+					$input->setAttributes('name', $prop);
+					$input->setAttributes('id', $prop);
+					$input->setAttributes('size', '300');
+					$val = SqlQuery::select('cliente', ['codigo'=>intval($val)], ['nome'], '=', '', 'bus_cliente');
+					$input->setAttributes('value', $val[0]->nome);
+					$input->setAttributes('readonly', 'true');
+					$input->setLabel($prop, 'Cliente:');
+					$content .= $input->show();
+					continue;
+				}
+				if($prop == 'tipoPagamento') {
+					$input->setType('text');
+					$input->setAttributes('name', $prop);
+					$input->setAttributes('id', $prop);
+					$input->setAttributes('size', '300');
+					$input->setAttributes('value', $val);
+					$input->setAttributes('readonly', 'true');
+					$input->setLabel($prop, 'Forma de pagamento:');
+					$content .= $input->show();
+					continue;
+				}
+				if($prop == 'valorTotal') {
+					$input->setType('text');
+					$input->setAttributes('name', $prop);
+					$input->setAttributes('id', $prop);
+					$input->setAttributes('size', '300');
+					$input->setAttributes('value', $val);
+					$input->setAttributes('readonly', 'true');
+					$input->setLabel($prop, 'Valor total do pedido:');
+					$content .= $input->show();
+					continue;
+				}
+				if($prop == 'produtos') {
+					$prod = explode('_', $val);
+					array_pop($prod);
+					foreach ($prod as $key => $value) {
+						$prod[$key] = explode(':', preg_replace(["/id=/", "/qtd=/"], "", $value));
+						$dataProd = SqlQuery::select('produto',['codigo'=>$prod[$key][0]],['nome','tamanho', 'valor'],'=','','bus_produto');
+						$prod[$key][0] = 'Nome: ' . $dataProd[0]->nome . ' - Tamanho: ' . $dataProd[0]->tamanho . ' - Preço: R$ ' . $dataProd[0]->valor;
+					}
+					$prodList_Simple = new ProdutosList_Simple('Produtos', 'produtos');
+					$prodList_Simple->setItens($prod);
+					$content .= $prodList_Simple->mount();
+					continue;
+				}
+				if($prop == 'entregador') {
+					$input->setType('text');
+					$input->setAttributes('name', $prop);
+					$input->setAttributes('id', $prop);
+					$input->setAttributes('size', '300');
+					$val = SqlQuery::select('entregador', ['codigo'=>$val],['nome'],'=','','bus_entregador');
+					$input->setAttributes('value', $val[0]->nome);
+					$input->setAttributes('readonly', 'true');
+					$input->setLabel($prop, 'Entregador:');
+					$content .= $input->show();
+					continue;
+				}
+				if($prop == 'status') {
+					$select = new Select('status');
+					$select->setLabel('status', 'Estado do pedido:');
+					$select->setOptions($this->select);
+					$content .= $select->show();
+					continue;
+				}
+			}
+		}
+		
+		//hash de verificação
+		$input->setType('hidden');
+		$input->setAttributes('name', 'token');
+		$input->setAttributes('value', $_SESSION['_token']);
+		$input->setLabel('', '');
+		$content .= $input->show();
+		
+		$bt = new Button();
+		$bt->setContent("Atualizar");
+		$bt->setAttributes("type", "submit");
+		$bt->setAttributes("value", "enviar");
+		$content .= $bt->show();
+		
+		$content .= $form->closeTag();
+		$this->title = 'Atualizar dados do pedido';
+		$this->form = $content;
 		
 		$panel = new Panel($this->title);
 		$panel->setContent($this->form);

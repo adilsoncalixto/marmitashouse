@@ -7,7 +7,7 @@ namespace App\widgets\container;
  * entçao gera campos com nome, botão add, rem e quantia
  * @author Jorge Lucas
  */
-class ProdutosList
+class ProdutosList_Simple
 {
 	/**
 	 * @var string label Label associada ao campo
@@ -17,7 +17,7 @@ class ProdutosList
 	private $label;
 	private $id;
 	private $itens;
-	
+
 	/**
 	 * Define label e id
 	 * @param string $label
@@ -27,7 +27,7 @@ class ProdutosList
 		$this->label = $label;
 		$this->id = $id;
 	}
-	
+
 	/**
 	 * Armazena o conjunto dos itens a serem exibidos
 	 * @param array $itens Conjunto dos itens
@@ -36,26 +36,21 @@ class ProdutosList
 	public function setItens(array $itens) {
 		$this->itens = $itens;
 	}
-	
+
 	/**
 	 * Reune os dados e gera a estrutura com os dados
 	 * @return string Estrutura montada
 	 */
 	public function mount() {
-		$lastId = 0;
 		$content  = "<label for='{$this->id}'>{$this->label}</label>\n";
-		$content .= "<div class='produtosList'>";
-		
+		$content .= "<div class='produtosList_Simple'>";
+
 		foreach ($this->itens as $item) {
 			$content .= "<div class='input-group'>\n";
-			$content .= "<input type='text' class='form-control' value='{$item->nome} - {$item->tamanho} - R$ {$item->valor} - Contém: {$item->descricao}' readonly>\n";
-			$content .= "<span class='input-group-btn'><button class='btn btn-info' type='button'  title='Adicionar item' id='add{$item->codigo}' data-price='{$item->valor}'>+</button></span>\n";
-			$content .= "<span class='input-group-btn'><button class='btn btn-danger' type='button' title='Remover item' id='rmv{$item->codigo}' data-price='{$item->valor}'>-</button></span>\n";
-			$content .= "<span class='input-group-addon' title='Quantidade de itens adicionados' id='qtd{$item->codigo}'>0</span>\n";
+			$content .= "<input type='text' class='form-control' value='{$item[0]}' readonly>\n";
+			$content .= "<span class='input-group-addon' title='Quantidade de itens'>Quantidade: {$item[1]}</span>\n";
 			$content .= "</div>\n";
-			$lastId = $item->codigo;
 		}
-		$content .= "<input type='hidden' id='lastId' value='{$lastId}'>";
 		$content .= "</div>";
 		return $content;
 	}

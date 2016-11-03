@@ -26,7 +26,7 @@ class ControlPedido
 	*/
 	public function cadastrar() {
 		
-		$caixa = date("d/m/Y");
+		$caixa = date('Y-m-d');
 		$check = SqlQuery::select('caixa', ['data'=>$caixa], '*', '=', '', 'bus_caixa');
 		if(!$check) {
 			throw new Exception('Caixa ainda não aberto! Abra um novo caixa.');
@@ -43,19 +43,16 @@ class ControlPedido
 			}
 		
 			$model = new Pedido();
-			$model->setData();
+			$model->setData($_POST['data']);
 			$model->setCliente($_POST['cliente']);
 			$model->setProduto($_POST['itensComprados']);
 			$model->setValorTotal($_POST['valorTotal']);
 			$model->setTipoPagamento($_POST['tipoPagamento']);
 			$model->setValorPago($_POST['valorPago']);
 			$model->setValorTroco($_POST['valorTroco']);
+			$model->setDesconto(isset($_POST['desconto']) ? $_POST['desconto'] : 0);
 			$model->setEntregador($_POST['entregador']);
 			$model->setStatus('Pendente');
-			/**
-			 * Recebido
-			 * 
-			 */
 			$model->setVendedor($_SESSION['nickname']);
 			if($model->save()) {
 				$msg = new Message();
@@ -122,8 +119,8 @@ class ControlPedido
 			$dataInicio = new DateTime($_POST['dataInicio']);
 			$dataFim = new DateTime($_POST['dataFim']);
 			$result = $model->listPedidos([
-					'data' => $dataInicio->format("d/m/Y"),
-					'dataFim' => $dataFim->format("d/m/Y")
+					'data' => $dataInicio->format("Y-m-d"),
+					'dataFim' => $dataFim->format("Y-m-d")
 			]);
 		
 			/** caso retorne dados, é montado uma tabela carregada com os mesmos, senão retorna
@@ -168,7 +165,9 @@ class ControlPedido
 			}
 				
 			$model = new Pedido();
-				
+			$model->setCodigo($_POST['codigo']);
+			$model->setStatus($_POST['status']);
+			
 			/** envia requisição para atualizar **/
 			if($model->update()) {
 				$msg = new Message();
@@ -183,10 +182,17 @@ class ControlPedido
 		} else {
 				
 			$model = new Pedido();
-			$data = new DateTime(str_replace('/', '-', $_GET['data']));
-			$data = $data->format('d/m/Y');
-			$result = $model->search($data);
+			$model->setCodigo($_GET['codigo']);
+			$result = $model->search();
+			
+			/** lista os possíveis estados do pedidopar formar um lista **/
+			$options = [];
+			$options['Pendente'] = 'Pendente';
+			$options['Em Trânsito'] = 'Em Trânsito';
+			$options['Entregue'] = 'Entregue';			
+			
 			$view = new ViewPedido();
+			$view->select = $options;
 			$view->showEditForm($result);
 		}
 	}

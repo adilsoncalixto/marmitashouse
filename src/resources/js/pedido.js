@@ -83,7 +83,8 @@ function loadProductEvents() {
 		setupEvent('add'+i, 'click', addCart);
 		setupEvent('rmv'+i, 'click', rmvCart);
 	}
-	setupEvent('valorPago', 'blur', cfgValores);
+	setupEvent('valorPago', 'blur', calcValorPago);
+	setupEvent('desconto','blur', calcValorDesconto);
 }
 
 /**
@@ -92,10 +93,11 @@ function loadProductEvents() {
  */
 function addCart(event) {
 	let id = event.target.id.replace('add','');
+	let price = parseFloat(elem(event.target.id).dataset.price);
 	wkrPedidos.postMessage({
 		cmd: 'add',
 		id: id,
-		valor: 10.99
+		valor: price
 	});
 	wkrPedidos.postMessage({
 		cmd: 'total'
@@ -132,21 +134,25 @@ function attTotal(total) {
 	fieldTotal.value = total;
 }
 
-/**
- * Lê o valor total e, com base no valor pago,
- * efetua o cálculo do troco
- * @returns void
- */
-function cfgValores() {
-	var vlTotal = parseFloat(elem('valorTotal').value);
-	var vlPago = parseFloat(elem('valorPago').value);
-	var vlTroco = elem('valorTroco');
-	if(vlPago < vlTotal) {
-		alert('Valor insuficiente!');
-		vlPago.focus();
+function calcValorPago() {
+	let vltot = elem('valorTotal');
+	let vlpag = elem('valorPago');
+	let vltro = elem('valorTroco');
+	if(parseFloat(vlpag.value) < parseFloat(vltot.value)) {
+		alert('Valor insuficiente');
 		return false;
+	} else {
+		vltro.value = (parseFloat(vlpag.value) - parseFloat(vltot.value)).toFixed(2);
+	}	
+}
+
+function calcValorDesconto(event) {
+	let desc = elem('desconto');
+	let vlto = elem('valorTotal');
+	if((parseFloat(desc.value) > 0) || (parseFloat(desc.value) <= parseFloat(vlto.value))) {
+		vlto.value = (parseFloat(vlto.value) - parseFloat(desc.value)).toFixed(2);
+		desc.disabled = true;
 	}
-	vlTroco.value = (vlPago - vlTotal).toFixed(2);
 }
 
 function prepareProds() {
@@ -158,5 +164,4 @@ function prepareProds() {
 function insertProds(prods) {
 	var produtos = elem('itensComprados');
 	produtos.value = prods;
-	console.log(prods);
 }
