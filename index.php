@@ -68,7 +68,7 @@ try
 		
 		$class = 'ControlLogin';
 		$navbar = new Navbar();
-		$navbar->setNavName("Casa das Marmitas v5.0");
+		$navbar->setNavName("Casa das Marmitas v6.0");
 		echo $navbar->show();
 	
 	} else {
