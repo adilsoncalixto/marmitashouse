@@ -13,6 +13,12 @@
 		overflow-y: scroll;
 		overflow-x: hidden;
 	}
+	
+	.produtosList_Simple {
+		height: 100px;
+		overflow-y: scroll;
+		overflow-x: hidden;
+	}
 }
 		
 @media screen and (min-width: 769px) 
@@ -24,6 +30,12 @@
 	
 	.produtosList {
 		height: 170px;
+		overflow-y: scroll;
+		overflow-x: hidden;
+	}
+	
+	.produtosList_Simple {
+		height: 100px;
 		overflow-y: scroll;
 		overflow-x: hidden;
 	}
