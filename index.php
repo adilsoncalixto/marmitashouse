@@ -138,12 +138,13 @@ try
 
 catch (Exception $ex) 
 {
+	$nick = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : '';
+	
 	$log = new Logger();
 	$log->open('erro');
-	$log->write($ex->getMessage().'_user: '. $_SESSION['nickname']);
+	$log->write($ex->getMessage().'_user: '. $nick);
 	
 	$msg = new Message();
-	$nick = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : '';
 	$msg->setContent('Erro:',$ex->getMessage(), 'warning');
 	echo $msg->show();
 	
