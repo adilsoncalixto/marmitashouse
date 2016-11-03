@@ -13,12 +13,13 @@ use PDO;
 trait SqlQuery
 {
 	/**
-	 * REaliza o INSERT no bando de dados
+	 * Constrói a instrução SQL de origem SELECT e a envia ao SGBD
 	 * @param string $table Tabela alvo
-	 * @param array $data Dados e seu valor
+	 * @param array $data Dados e seus valors
 	 * @param array|string $target Campo da tabela alvo
 	 * @param string $operator Operadores SQL (LIKE, +, > etc)
 	 * @param string $bool Operadores lógicos (AND, OR, XOR)
+	 * @param string $typelog Nome do arquivo de log
 	 * @return object $result Resultado da consulta
 	 */
 	public static function select(string $table, array $data, $target, string $operator, string $bool,
@@ -95,6 +96,15 @@ trait SqlQuery
 		return $data;
 	}
 
+	/**
+	 * Constrói a instrução SQL de origem INSERT e a envia ao SGBD
+	 * @param string $table Tabela alvo
+	 * @param array $data Dados e seus valors
+	 * @param string $operator Operadores SQL (LIKE, +, > etc)
+	 * @param string $bool Operadores lógicos (AND, OR, XOR)
+ 	 * @param string $typelog Nome do arquivo de log
+	 * @return boolean
+	 */
 	public static function insert(string $table, array $data, string $operator, string $bool, string $typeLog) {
 		
 		Transaction::open('mysql');
@@ -128,6 +138,13 @@ trait SqlQuery
 		}
 	}
 	
+	/**
+	 * Constrói a instrução SQL de origem UPDATE e a envia ao SGBD
+	 * @param string $table Tabela alvo
+	 * @param array $data Dados e seus valors
+	 * @param string $typeLog Nome do arquivo de log
+	 * @return boolean
+	 */
 	public static function update(string $table, array $dados, string $typeLog) {
 		
 		Transaction::open('mysql');
@@ -140,6 +157,8 @@ trait SqlQuery
 		foreach ($dados as $prop => $val) {
 				if($prop == 'codigo') {
 					$cod = $val;
+					$i++;
+					continue;
 				}
 				if($i == count($dados)) {
 					$sql .= "{$prop} = '{$val}' ";
@@ -157,6 +176,13 @@ trait SqlQuery
 		}
 	}
 	
+	/**
+	 * Constrói a instrução SQL de origem DELETE e a envia ao SGBD
+	* @param string $table Tabela alvo
+	 * @param array $data Dados e seus valors
+	 * @param string $typeLog Nome do arquivo de log
+	 * @return boolean
+	 */
 	public static function drop(string $table, array $dados, string $typeLog) {
 		
 		Transaction::open('mysql');

@@ -23,11 +23,19 @@ class Usuario extends Login
 	use FilterInput;
 	private $codigo;
 	
-	
+	/**
+	 * Armazena o código no campo $codigo
+	 * @param int $codigo
+	 * @return void
+	 */
 	public function setCodigo(int $codigo) {
 		$this->codigo = intval($this->cleanInput($codigo));
 	}
 	
+	/**
+	 * Retorna o valor armazenado em $codigo
+	 * @return int $codigo
+	 */
 	public function getCodigo() {
 		return $this->codigo;
 	}
