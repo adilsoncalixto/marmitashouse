@@ -34,7 +34,7 @@ class ControlCaixa
 			}
 			
 			$model = new Caixa();
-			$model->setData();
+			$model->setData($_POST['data']);
 			$model->setQuantia($_POST['quantia']);
 			$model->setUsername();
 			if($model->save()) {
@@ -73,8 +73,8 @@ class ControlCaixa
 			$dataInicio = new DateTime($_POST['dataInicio']);
 			$dataFim = new DateTime($_POST['dataFim']);
 			$result = $model->listCaixa(array(
-					'data' => $dataInicio->format("d/m/Y"),
-					'dataFim' => $dataFim->format("d/m/Y")
+					'data' => $dataInicio->format("Y-m-d"),
+					'dataFim' => $dataFim->format("Y-m-d")
 			));
 				
 			/** caso retorne dados, é montado uma tabela carregada com os mesmos, senão retorna
