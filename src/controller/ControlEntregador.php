@@ -181,9 +181,7 @@ class ControlEntregador
 	 		$codigo = isset($_GET['codigo']) ? $_GET['codigo'] : null;
 	 		$model = new Entregador();
 	 		$model->setCodigo($codigo);
-	 		$dados = array(
-	 				'codigo' => $model->getCodigo()
-	 		);
+	 		$dados = ['codigo' => $model->getCodigo()];
 	 		$dados = $model->search($dados, '=');
 	 		$view = new ViewEntregador();
 	 		
