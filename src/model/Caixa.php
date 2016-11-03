@@ -4,6 +4,7 @@ namespace App\model;
 
 use App\database\SqlQuery;
 use App\utils\FilterInput;
+use DateTime;
 use Exception;
 
 /**
@@ -21,28 +22,41 @@ class Caixa
 	 */
 	use SqlQuery;
 	use FilterInput;
+	private $codigo;
 	private $data;
 	private $quantia;
 	private $username;
 	
+	/**
+	 * Armazena um inteiro na variável código
+	 * @param int $codigo
+	 */
+	public function setCodigo(int $codigo) {
+		$this->codigo = intval($this->cleanInput($codigo));
+	}
+	
+	/**
+	 * Retorna o valor armazenado em código
+	 * @return int código
+	 */
 	public function getCodigo() {
-		$codigo = SqlQuery::select('caixa', ['data'=>$this->data], ['codigo'], '=', '', 'bus_caixa');
-		return intval($codigo[0]->codigo);
+		return $this->codigo;
 	}
 	
 	/**
 	 * Atribui a data atual à variável $data
 	 */
-	public function setData() {
-		$this->data = date("d/m/Y");
+	public function setData(string $data) {
+		date_default_timezone_set("America/Fortaleza");
+		$this->data = new DateTime($data);
 	}
 	
 	/**
 	 * Retorna a data armazenada em $data
-	 * @return string
+	 * @return string data
 	 */
 	public function getData() {
-		return $this->data;
+		return $this->data->format("Y-m-d H:i:s");
 	}
 	
 	/**
@@ -81,7 +95,7 @@ class Caixa
 	 * quantia passada
 	 * @return void
 	 */
-	public function attQuantia() {
+	public function addQuantia() {
 		$dados = [
 			'codigo' => $this->getCodigo(),
 			'quantia' => $this->quantia
@@ -93,6 +107,10 @@ class Caixa
 		return false;
 	}
 	
+	public function rmvQuantia() {
+		
+	}
+	
 	/**
 	 * Prepara os dados para enviar ao banco, verifica se já existe um caixa aberto
 	 * com a mesma data e, se sim, lança uma exceção, senão, conclui o registro
@@ -101,12 +119,12 @@ class Caixa
 	 */
 	public function save() {
 		$dados = array(
-				'data' => $this->data,
+				'data' => $this->getData(),
 				'quantia' => $this->quantia,
 				'username' => $this->username
 		);
 		
-		$verifyCaixa = SqlQuery::select('caixa', array('data' => $this->data), '*', '=', '', 'bus_caixa');
+		$verifyCaixa = SqlQuery::select('caixa', ['data' => $this->getData()], '*', '=', '', 'bus_caixa');
 		if($verifyCaixa) {
 			throw new Exception('Caixa já aberto!');
 		}
