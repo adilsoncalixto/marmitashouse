@@ -4,6 +4,12 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Versão estável 6.0 ##
+* Módulo Pedido adicionado
+* Correções de erros e melhorias
+* Nova classes ProdutosList e ProdutosList_Simple
+* Novo formato de dada em DataGrid (DateTime)
+
 ## Versão estável 5.0 ##
 * Módulo Produto adicionado
 * Nova classe Radio (gera HTML radio)
