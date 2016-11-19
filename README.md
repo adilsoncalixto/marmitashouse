@@ -4,6 +4,11 @@ Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
 
 http://marmitashouse.pe.hu/
 
+## Release da versão 6.1 ##
+* Nova classe Report (Gerar barras de progresso)
+* Módulo Pedido::Relatório ativado
+* Correções de erros e melhorias
+
 ## Versão estável 6.0 ##
 * Módulo Pedido adicionado
 * Correções de erros e melhorias
