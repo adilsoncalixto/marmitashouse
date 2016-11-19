@@ -182,6 +182,17 @@ class Pedido
 	}
 	
 	/**
+	 * Realiza uma busca por todos os pedidos compreendidos entre as datas
+	 * repassadas e retorna um array com os dados
+	 * @param array $datas (dataInicio e dataFim para realizar a busca)
+	 * @return array $dados Resultado da busca
+	 */
+	public function getDadosEntregas(array $datas) {
+		$dados = SqlQuery::select('pedido', $datas, ['entregador', 'status'], 'BETWEEN', 'AND', 'bus_pedido');
+		return (array)$dados;
+	}
+	
+	/**
 	 * Coleta os dados armazenados nos campos da classe e tenta realizar
 	 * a inserção no banco de dados
 	 * @return boolean
