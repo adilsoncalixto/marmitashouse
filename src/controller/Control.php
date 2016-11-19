@@ -17,6 +17,10 @@ class Control
 	 */
 	public static function load(string $class) {
 		
+		/**
+		 * Verifica a classe chamada e, então, retorna sua
+		 * instância. Senão, lança uma exceção.
+		 */
 		switch ($class)
 		{
 			case 'ControlLogin':
