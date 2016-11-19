@@ -8,6 +8,7 @@ use App\widgets\base\Element;
 use App\widgets\container\Panel;
 use App\widgets\container\ProdutosList;
 use App\widgets\container\ProdutosList_Simple;
+use App\widgets\container\Report;
 use App\widgets\form\Button;
 use App\widgets\form\Input;
 use App\widgets\form\Select;
@@ -26,6 +27,7 @@ class ViewPedido implements FormBasic
 	 * @var array select Empresas Terceirizadas
 	 * @var array produtos Produtos cadastrados
 	 * @var array entregador Entergadores cadastrados
+	 * @var array Dados usados para gerar o relatório (array nome => qtdEntrega, int qtdEntregas) 
 	 * @trait SqlQuery Monta a instrução SQL e interage com o sgbd
 	 */
 	private $title;
@@ -33,6 +35,7 @@ class ViewPedido implements FormBasic
 	public $select;
 	public $produtos;
 	public $entregador;
+	public $dadosRelatorio;
 	use SqlQuery;
 	
 	/**
@@ -212,6 +215,44 @@ class ViewPedido implements FormBasic
 				
 				$content .= $form->closeTag();
 				$this->title = 'Consultar pedidos';
+				$this->form = $content;
+				break;
+				
+			case 'relatorio':
+				$form->setAttribute("action", "?class=ControlPedido&method=relatorio&action=generate");
+				$content .= $form->show();
+				
+				//input data inicial
+				$input->setType('date');
+				$input->setAttributes('name', 'dataInicio');
+				$input->setAttributes('id', 'dataInicio');
+				$input->setAttributes('size', '30');
+				$input->setLabel('dataInicio', 'Entre a data:');
+				$content .= $input->show();
+				
+				//input data final
+				$input->setType('date');
+				$input->setAttributes('name', 'dataFim');
+				$input->setAttributes('id', 'dataFim');
+				$input->setAttributes('size', '30');
+				$input->setLabel('dataFim', 'E:');
+				$content .= $input->show();
+				
+				//hash de verificação
+				$input->setType('hidden');
+				$input->setAttributes('name', 'token');
+				$input->setAttributes('value', $_SESSION['_token']);
+				$input->setLabel('', '');
+				$content .= $input->show();
+				
+				$bt = new Button();
+				$bt->setContent("Consultar");
+				$bt->setAttributes("type", "submit");
+				$bt->setAttributes("value", "consultar");
+				$content .= $bt->show();
+				
+				$content .= $form->closeTag();
+				$this->title = 'Relatório de entregas realizadas';
 				$this->form = $content;
 				break;
 			

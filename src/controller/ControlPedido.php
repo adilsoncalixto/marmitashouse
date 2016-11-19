@@ -9,6 +9,8 @@ use App\widgets\dialog\Message;
 use App\widgets\container\DataGrid;
 use DateTime;
 use Exception;
+use App\widgets\container\Report;
+use App\widgets\container\Panel;
 
 /**
  * Gerencia as requisições dos formulários envolvendo
@@ -226,7 +228,61 @@ class ControlPedido
 		$view->show();
 	}
 	
+	/**
+	 * Recebe a requisição para gerar um relatório baseado
+	 * em entregas realizadas
+	 */
 	public function relatorio() {
 		
+		if($_SESSION['permission'] !== 'all') {
+			throw new Exception('Usuário sem permissão! Contate o adinistrador so sistema!');
+		}
+		
+		$action = isset($_GET['action']) ? $_GET['action'] : null;
+		
+		if($action == 'generate') {
+			$model = new Pedido();
+			$dataInicio = new DateTime($_POST['dataInicio']);
+			$dataFim = new DateTime($_POST['dataFim']);
+			$result = $model->getDadosEntregas([
+					'data' => $dataInicio->format("Y-m-d"),
+					'dataFim' => $dataFim->format("Y-m-d")
+			]);
+			$dadosRelatorio = [];
+			$totalEntregas = 0;
+			if($result) {
+				foreach ($result as $entrega => $dados) {
+					if($dados->status == 'Entregue') {
+						$totalEntregas++;
+					}
+				}
+				foreach ($result as $entregas => $prop) {
+					$search = SqlQuery::select('entregador', ['codigo'=>$prop->entregador], ['nome'], '=', '', 'bus_entregador');
+					$codigo = $prop->entregador;
+					$entregador = $search[0]->nome;
+					if(!key_exists($entregador, $dadosRelatorio)) {
+						$dadosRelatorio[$entregador] = 0;
+					} else {
+						continue;
+					}
+				}
+				
+				foreach ($result as $entregas => $prop) {
+					$search = SqlQuery::select('entregador', ['codigo'=>$prop->entregador], ['nome'], '=', '', 'bus_entregador');
+					$entregador = $search[0]->nome;
+					if(key_exists($entregador, $dadosRelatorio)) {
+						$dadosRelatorio[$entregador]++;
+					}
+				}
+			}
+		}
+		
+		$view = new ViewPedido();
+		$view->show();
+		
+		if($action == 'generate') {
+			$report = new Report($dadosRelatorio, $totalEntregas);
+			echo "<div class='form'>" . $report->show() . "</div>";		
+		}
 	}
 }
