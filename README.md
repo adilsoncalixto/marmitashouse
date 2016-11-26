@@ -1,9 +1,5 @@
 # Casa das Marmitas #
 
-Projeto acadêmico do 5º semestre de Análise e Desenvolvimento de Sistemas
-
-http://marmitashouse.pe.hu/
-
 ## Release da versão 6.1 ##
 * Nova classe Report (Gerar barras de progresso)
 * Módulo Pedido::Relatório ativado
