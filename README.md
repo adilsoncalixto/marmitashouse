@@ -1,6 +1,6 @@
 # Casa das Marmitas #
 
-## Release da versão 6.1 ##
+## Versão estável 6.1 ##
 * Nova classe Report (Gerar barras de progresso)
 * Módulo Pedido::Relatório ativado
 * Correções de erros e melhorias
