@@ -10,7 +10,6 @@ use App\widgets\container\DataGrid;
 use DateTime;
 use Exception;
 use App\widgets\container\Report;
-use App\widgets\container\Panel;
 
 /**
  * Gerencia as requisições dos formulários envolvendo

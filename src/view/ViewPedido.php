@@ -8,7 +8,6 @@ use App\widgets\base\Element;
 use App\widgets\container\Panel;
 use App\widgets\container\ProdutosList;
 use App\widgets\container\ProdutosList_Simple;
-use App\widgets\container\Report;
 use App\widgets\form\Button;
 use App\widgets\form\Input;
 use App\widgets\form\Select;
