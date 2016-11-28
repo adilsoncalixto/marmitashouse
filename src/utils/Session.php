@@ -36,8 +36,7 @@ class Session
     public function checkSessionTime() {
     	
     	if($_SESSION['sessionTime'] < time()) {
-    		$_SESSION = array();
-    		session_destroy();
+    		$this->clean();
     		return false;
     	}
     	return true;
