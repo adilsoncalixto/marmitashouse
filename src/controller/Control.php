@@ -21,38 +21,11 @@ class Control
 		 * Verifica a classe chamada e, então, retorna sua
 		 * instância. Senão, lança uma exceção.
 		 */
-		switch ($class)
-		{
-			case 'ControlLogin':
-				return (new ControlLogin());
-				break;
-			case 'ControlHome':
-				return (new ControlHome());
-				break;
-			case 'ControlCliente':
-				return (new ControlCliente());
-				break;
-			case 'ControlProduto':
-				return (new ControlProduto());
-				break;
-			case 'ControlPedido':
-				return (new ControlPedido());
-				break;
-			case 'ControlEntregador':
-				return (new ControlEntregador());
-				break;
-			case 'ControlEmpresaTerceirizada':
-				return (new ControlEmpresaTerceirizada());
-				break;
-			case 'ControlCaixa':
-				return (new ControlCaixa());
-				break;
-			case 'ControlUsuario':
-				return (new ControlUsuario());
-				break;
-			default:
-				throw new Exception('Classe de controle não encontrada!');
-				break;
+        	$class = "App\controller\\$class";
+		if(class_exists($class)) {
+		    return (new $class());   
+		} else {
+		    throw new Exception('Classe de controle não encontrada!');
 		}
 	}
 }
