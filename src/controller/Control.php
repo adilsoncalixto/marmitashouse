@@ -15,13 +15,9 @@ class Control
 	 * @param string $class Noma da classe
 	 * @return object Instância de uma classe
 	 */
-	public static function load(string $class) {
-		
-		/**
-		 * Verifica a classe chamada e, então, retorna sua
-		 * instância. Senão, lança uma exceção.
-		 */
-        	$class = "App\controller\\$class";
+	public static function load(string $class) 
+	{		
+		$class = "App\controller\\$class";
 		if(class_exists($class)) {
 		    return (new $class());   
 		} else {
